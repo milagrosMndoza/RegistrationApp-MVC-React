@@ -12,6 +12,8 @@ class Model {
         this.callback();
     }
     addInvitados() {
+    console.log(this.inputValue.value);
+    if(this.inputValue!= null && this.inputValue.value !=''){
         this.invitados.push({
             name: this.inputValue.value,
             id: Utils.uuid()
@@ -19,10 +21,11 @@ class Model {
         this.inputValue.value = '';
         this.notify();
     }
+    }
     deleteInvitados(id) {
-        for (let del in this.invitados)
-            if (this.invitados[del].id == id) {
-                this.invitados.splice(del, 1);
+        for (let i in this.invitados)
+            if (this.invitados[i].id == id) {
+                this.invitados.splice(i , 1);
             }
         this.notify();
     }
@@ -31,14 +34,11 @@ const InvitadosList = ({
         title,
         model
     }) => {
-        return ( < ul > {
+        return ( < ul className="responded" > {
                 model.invitados.map((invita) => {
-                    return <li key = {
-                            invita.id
-                        } > {
-                            invita.name
-                        } <
-                        label > Confirmed < input type = 'checkbox' / > < /label> <
+                    return <li  key = {invita.id} > 
+                            {invita.name}
+                           <label > Confirmed < input className="responded" type = 'checkbox' / > < /label> <
                         button onClick = {
                             () => model.deleteInvitados(invita.id)
                         } > Remove < /button></li > ;
@@ -57,7 +57,7 @@ const InvitadosList = ({
                 header >
                 <
                 h1 > RSVP < /h1> <
-                p > Registration App < /p> <
+                p > Registration App </p> <
                 form onSubmit = {
                     (e) => {
                         e.preventDefault();
@@ -81,8 +81,8 @@ const InvitadosList = ({
                     model
                 }
                 /> <
-                /div> <
                 /div>
+            </div>
             );
         }
 
@@ -93,9 +93,7 @@ const InvitadosList = ({
         let render = () => {
             ReactDOM.render( <
                 InvitadosApp title = "RegistrationApp"
-                model = {
-                    model
-                }
+                model = {model}
                 />,
                 document.getElementById("container")
             );
