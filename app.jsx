@@ -16,7 +16,9 @@ class Model {
     if(this.inputValue!= null && this.inputValue.value !=''){
         this.invitados.push({
             name: this.inputValue.value,
-            id: Utils.uuid()
+            id: Utils.uuid(),
+            confirmed: false,
+            clase: ' '
         });
         this.inputValue.value = '';
         this.notify();
@@ -29,22 +31,27 @@ class Model {
             }
         this.notify();
     }
+
+    clickCheckbox(e, index){
+      this.invitados[index].clase= (e.target.checked) ? "responded": "";
+      this.notify();
+    }
 }
 const InvitadosList = ({
         title,
         model
     }) => {
-        return ( < ul className="responded" > {
-                model.invitados.map((invita) => {
-                    return <li  key = {invita.id} > 
+        return ( < ul > {
+                model.invitados.map((invita, index) => {
+                    return <li  key = {invita.id} className={invita.clase}> 
                             {invita.name}
-                           <label > Confirmed < input className="responded" type = 'checkbox' / > < /label> <
-                        button onClick = {
+                           <label> Confirmed < input type='checkbox' onClick={ (e) => model.clickCheckbox(e, index)} / > < /label> 
+                           <button onClick = { 
                             () => model.deleteInvitados(invita.id)
-                        } > Remove < /button></li > ;
+                        } > Remove < /button>
+                           </li> ;
                 })
-            } <
-            /ul>);
+            } </ul>);
         }
 
         const InvitadosApp = ({
@@ -53,19 +60,15 @@ const InvitadosList = ({
         }) => {
             return ( <
                 div className = "wrapper" >
-                <
-                header >
-                <
-                h1 > RSVP < /h1> <
-                p > Registration App </p> <
+                <header >
+                <h1> RSVP </h1> <p> Registration App </p> <
                 form onSubmit = {
                     (e) => {
                         e.preventDefault();
                         model.addInvitados()
                     }
                 } >
-                <
-                input type = "text"
+                <input type = "text"
                 placeholder = "Invite Someone"
                 onChange = {
                     e => (model.inputValue = e.target)
@@ -75,13 +78,9 @@ const InvitadosList = ({
                 /form> <
                 /header> <
                 div className = "main" >
-                <
-                h2 > Invitees < /h2> <
-                InvitadosList model = {
-                    model
-                }
-                /> <
-                /div>
+                < h2 > Invitees < /h2> <
+                InvitadosList model = {model}
+                /> </div>
             </div>
             );
         }
