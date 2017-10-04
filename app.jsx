@@ -9,11 +9,10 @@ class Model{
   }
 
   notify() {
-    this.callback();
+    this.callback();  
   }
     addInvitados(){
-      
-      this.invitados.push(
+        this.invitados.push(
         {name:this.inputValue.value,
           id:Utils.uuid()});
       this.inputValue.value='';
@@ -27,7 +26,7 @@ class Model{
       this.notify();
     }
 }
-const InvitadosList=({model})=>{
+const InvitadosList=({title, model})=>{
   return (<ul>
     {model.invitados.map((invita)=>{
       return <li key={invita.id}>{invita.name}
@@ -45,7 +44,7 @@ const InvitadosApp=({title,model})=>{
         <h1>RSVP</h1>
         <p> Registration App </p>
         <form onSubmit={(e)=>{e.preventDefault();model.addInvitados()}}>
-          <input type="text" placeholder="Invite Someone"  onChange={e => (model.inputValue = e.target)} />
+          <input type="text" placeholder="Invite Someone"  onChange={ e => (model.inputValue = e.target)} />
           <button type="submit">Submit</button>
         </form>
       </header>
@@ -63,7 +62,7 @@ let counter = 1;
 
 let render = () => {
   ReactDOM.render(
-    <InvitadosApp title="ReservaInvitacion" model={model} />,
+    <InvitadosApp title="RegistrationApp" model={model} />,
     document.getElementById("container")
   );
 };
